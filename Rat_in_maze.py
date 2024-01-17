@@ -97,6 +97,25 @@ def display_maze_with_path(maze, path):
 
     for row in maze:
         print(" ".join(symbols[cell] for cell in row))
+        
+def dfs(x, y, path, maze, Pf):
+  if x < 0 or x >= len(maze) or y < 0 or y >= len(maze[0]) or maze[x][y] != 1:
+      return False
+
+  path.append((x, y))
+
+  if (x, y) == Pf:
+      return True
+
+  maze[x][y] = -1
+
+  if dfs(x + 1, y, path, maze, Pf) or dfs(x - 1, y, path, maze, Pf) or dfs(x, y + 1, path, maze, Pf) or dfs(x, y - 1, path, maze, Pf):
+      return True
+
+def find_path(maze, P0, Pf,path):
+  dfs(P0[0], P0[1], path, maze, Pf)
+  print(path)
+  return path
 
 if __name__ == "__main__":
     n = int(input("Enter the size of the maze (n x n): "))
@@ -115,7 +134,12 @@ if __name__ == "__main__":
 
         if choice == "1":
             path=[]
-            
+            find_path(maze, P0, Pf,path)
+            if len(path)>0:
+                display_maze_with_path(maze, path)
+            else:
+                print("No path found.")
+
         elif choice == "2":
             maze = random_maze_generator(n, n, P0, Pf)
 
