@@ -93,10 +93,17 @@ def random_maze_generator(r, c, P0, Pf):
 
     return maze
 def display_maze_with_path(maze, path):
-    symbols = {0: "▓", 1: "◌", 2: "S", 3: "E", -1: "◍"}  
+  symbols = {0: "▓", 1: "◌", 2: "S", 3: "E", -1: "◍"}  
 
-    for row in maze:
-        print(" ".join(symbols[cell] for cell in row))
+  # Create a copy of the maze to avoid modifying the original maze
+  maze_copy = [row[:] for row in maze]
+
+  # Mark the path on the copy of the maze
+  for x, y in path:
+      maze_copy[x][y] = -1
+
+  for row in maze_copy:
+      print(" ".join(symbols[cell] for cell in row))
         
 def dfs(x, y, path, maze, Pf):
   if x < 0 or x >= len(maze) or y < 0 or y >= len(maze[0]) or maze[x][y] != 1:
