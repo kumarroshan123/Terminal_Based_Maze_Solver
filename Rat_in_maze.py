@@ -90,5 +90,9 @@ class Stack:
         maze[xf][yf] = 3
 
         return maze
+    def display_maze_with_path(maze, path):
+        symbols = {0: "▓", 1: "◌", 2: "S", 3: "E", -1: "◍"}  
 
+        for row in maze:
+            print(" ".join(symbols[cell] for cell in row))
 
