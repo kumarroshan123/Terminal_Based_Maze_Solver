@@ -94,11 +94,7 @@ def random_maze_generator(r, c, P0, Pf):
     return maze
 def display_maze_with_path(maze, path):
   symbols = {0: "▓", 1: "◌", 2: "S", 3: "E", -1: "◍"}  
-
-  # Create a copy of the maze to avoid modifying the original maze
   maze_copy = [row[:] for row in maze]
-
-  # Mark the path on the copy of the maze
   for x, y in path:
       maze_copy[x][y] = -1
 
@@ -106,23 +102,38 @@ def display_maze_with_path(maze, path):
       print(" ".join(symbols[cell] for cell in row))
         
 def dfs(x, y, path, maze, Pf):
-  if x < 0 or x >= len(maze) or y < 0 or y >= len(maze[0]) or maze[x][y] != 1:
-      return False
+    if x < 0 or x >= len(maze) or y < 0 or y >= len(maze[0]) or maze[x][y] != 1 or maze[x][y] == -1:
+        return False
 
-  path.append((x, y))
+    path.append((x, y))
+    # print(path)
+    if (x, y) == Pf:
+        return True
 
-  if (x, y) == Pf:
-      return True
+    maze[x][y] = -1
 
-  maze[x][y] = -1
+    if (dfs(x + 1, y, path, maze, Pf) or
+        dfs(x - 1, y, path, maze, Pf) or
+        dfs(x, y + 1, path, maze, Pf) or
+        dfs(x, y - 1, path, maze, Pf)):
+        return True
 
-  if dfs(x + 1, y, path, maze, Pf) or dfs(x - 1, y, path, maze, Pf) or dfs(x, y + 1, path, maze, Pf) or dfs(x, y - 1, path, maze, Pf):
-      return True
+    maze[x][y] = 1
+    path.pop()
+    return False
 
 def find_path(maze, P0, Pf,path):
-  dfs(P0[0], P0[1], path, maze, Pf)
-  print(path)
-  return path
+    
+    
+    if dfs(0, 1, path, maze, Pf):
+        print(path)
+        return path 
+    if dfs(1, 0, path, maze, Pf):
+        print(path)
+        return path 
+#   dfs(P0[0]+1, P0[1], path, maze, Pf)
+    # print(path)
+    # return path
 
 if __name__ == "__main__":
     n = int(input("Enter the size of the maze (n x n): "))
