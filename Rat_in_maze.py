@@ -95,4 +95,11 @@ class Stack:
 
         for row in maze:
             print(" ".join(symbols[cell] for cell in row))
+    if __name__ == "__main__":
+        n = int(input("Enter the size of the maze (n x n): "))
+        P0 = (0, 0)
+        Pf = (n - 1, n - 1)
+        maze = random_maze_generator(n, n, P0, Pf)
+        while True:
+            display_maze_with_path(maze, [])
 
